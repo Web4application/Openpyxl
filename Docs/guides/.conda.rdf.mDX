@@ -13,72 +13,69 @@
 
 ====================================================
 # Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl.git)
+====================================================
 
 
-patch errors
-KeyError:                               Traceback (most recent call last)
-# File ~/work/pandas/pandas/pandas/core/indexes/base.py:3641, in Index.get_loc(self, key)
-364_try: -> 3641     return self._engine.get_loc(casted_key)
+>patch Traceback (most recent call last)
+>File ~/work/pandas/pandas/pandas/core/indexes/base.py:3641, in Index.get_loc(self, key)
+364_try: -> 3641
+>return self._engine.get_loc(casted_key)
 3642 except KeyError as err:
-File ~/work/pandas/pandas/pandas/_libs/index.pyx:168, in pandas._libs.index.IndexEngine.get_loc()
-File ~/work/pandas/pandas/pandas/_libs/index.pyx:197, in pandas._libs.index.IndexEngine.get_loc()
-File pandas/_libs/hashtable_class_helper.pxi:7668, in pandas._libs.hashtable.PyObjectHashTable.get_item()
-File pandas/_libs/hashtable_class_helper.pxi:7676, in pandas._libs.hashtable.PyObjectHashTable.get_item()
-
-
-KeyError: 'f'
+>File ~/work/pandas/pandas/pandas/_libs/index.pyx:168, in pandas._libs.index.IndexEngine.get_loc()
+>File ~/work/pandas/pandas/pandas/_libs/index.pyx:197, in pandas._libs.index.IndexEngine.get_loc()
+>File pandas/_libs/hashtable_class_helper.pxi:7668, in pandas._libs.hashtable.PyObjectHashTable.get_item()
+>File pandas/_libs/hashtable_class_helper.pxi:7676, in pandas._libs.hashtable.PyObjectHashTable.get_item()
+>KeyError: 'f'
 The above exception was the direct cause of the following 
-exception: KeyError                                  Traceback (most recent call last)
+exception: KeyError                                 > Traceback (most recent call last)
 Cell In[26], line 1 ----> 1 s["f"]
-File ~/work/pandas/pandas/pandas/core/series.py:959, in Series.__getitem__(self, key)
+>File ~/work/pandas/pandas/pandas/core/series.py:959, in Series.__getitem__(self, key)
     954     key = unpack_1tuple(key)
     956 elif key_is_scalar:
-    957     # Note: GH#50617 in 3.0 we changed int key to always be treated as
+    957     # Note: GH#50617 in 3.0 we changed int >key to always be treated as
     958     #  a label, matching DataFrame behavior.
---> 959     return self._get_value(key)
-    961 # Convert generator to list before going through hashable part
+>--> 959     return self._get_value(key)
+    961 # Convert generator to list before going >through hashable part
     962 # (We will iterate through the generator there to check for slices)
     963 if is_iterator(key):
-File ~/work/pandas/pandas/pandas/core/series.py:1046, in Series._get_value(self, label, takeable)
+>File ~/work/pandas/pandas/pandas/core/series.py:1046, in Series._get_value(self, label, takeable)
    1043     return self._values[label]
    1045 # Similar to Index.get_value, but we do not fall back to positional
--> 1046 loc = self.index.get_loc(label)
+>-> 1046 loc = self.index.get_loc(label)
    1048 if is_integer(loc):
    1049     return self._values[loc]
 
-File ~/work/pandas/pandas/pandas/core/indexes/base.py:3648, in Index.get_loc(self, key)
+>File ~/work/pandas/pandas/pandas/core/indexes/base.py:3648, in Index.get_loc(self, key)
    3643     if isinstance(casted_key, slice) or (
    3644         isinstance(casted_key, abc.Iterable)
    3645         and any(isinstance(x, slice) for x in casted_key)
    3646     ):
    3647         raise InvalidIndexError(key) from err
--> 3648     raise KeyError(key) from err
+>-> 3648     raise KeyError(key) from err
    3649 except TypeError:
-   3650     # If we have a listlike key, _check_indexing_error will raise
+   3650     # If we have a listlike key, >_check_indexing_error will raise
    3651     #  InvalidIndexError. Otherwise we fall through and re-raise
    3652     #  the TypeError.
    3653     self._check_indexing_error(key)
 
-KeyError: 'f'
+>```KeyError: 'f'```
+>In [124]: baseball = pd.read_csv("data/baseball.csv")
 
-
-In [124]: baseball = pd.read_csv("data/baseball.csv")
-
-In [125]: print(baseball)
+>In [125]: print(baseball)
        id     player  year  stint team  lg  ...    so  ibb  hbp   sh   sf  gidp
 0   88641  womacto01  2006      2  CHN  NL  ...   4.0  0.0  0.0  3.0  0.0   0.0
 1   88643  schilcu01  2006      1  BOS  AL  ...   1.0  0.0  0.0  0.0  0.0   0.0
-..    ...        ...   ...    ...  ...  ..  ...   ...  ...  ...  ...  ...   ...
+>..    ...        ...   ...    ...  ...  ..  ...   >...  ...  ...  ...  ...   ...
 98  89533   aloumo01  2007      1  NYN  NL  ...  30.0  5.0  2.0  0.0  3.0  13.0
 99  89534  alomasa02  2007      1  NYN  NL  ...   3.0  0.0  0.0  0.0  0.0   0.0
 
-.. [100_rows_23_columns]:
+>.. [100_rows_23_columns]:
 
-In [126]: baseball.info()
+>In [126]: baseball.info()
 <class 'pandas.DataFrame'>
 RangeIndex: 100 entries, 0 to 99
 Data columns (total 23 columns):
- #   Column  Non-Null Count  Dtype  
+> #   Column  Non-Null Count  Dtype  
 ---  ------  --------------  -----  
  0   id      100 non-null    int64  
  1   player  100 non-null    str    
@@ -103,7 +100,7 @@ Data columns (total 23 columns):
  20  sh      100 non-null    float64
  21  sf      100 non-null    float64
  22  gidp    100 non-null    float64
-dtypes: float64(9), int64(11), str(3)
+>dtypes: float64(9), int64(11), str(3)
 memory usage: 19.5 KB
 ---
 
