@@ -1,37 +1,35 @@
-================================================================================
-Openpyxl     powered by local multifunctional local model
-================================================================================
+---
+..Openpyxl: powered by local multifunctional local model
+..image: 
+..code-block: python
+..allimages: 
+..all_extentions: 
+..target: # https://github.com/Web4application/Openpyxl.git
+:task:
+---
 
-.. image:: 
-   .. all-code-block:: 
-   ..all-images::
-   :target: 
-   https://github.com/Web4application/Openpyxl.git
 
-In [26]: s["f"]
----------------------------------------------------------------------------
-KeyError                                  Traceback (most recent call last)
-File ~/work/pandas/pandas/pandas/core/indexes/base.py:3641, in Index.get_loc(self, key)
-   3640 try:
--> 3641     return self._engine.get_loc(casted_key)
-   3642 except KeyError as err:
 
+
+====================================================
+# Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl.git)
+
+
+patch errors
+KeyError:                               Traceback (most recent call last)
+# File ~/work/pandas/pandas/pandas/core/indexes/base.py:3641, in Index.get_loc(self, key)
+364_try: -> 3641     return self._engine.get_loc(casted_key)
+3642 except KeyError as err:
 File ~/work/pandas/pandas/pandas/_libs/index.pyx:168, in pandas._libs.index.IndexEngine.get_loc()
-
 File ~/work/pandas/pandas/pandas/_libs/index.pyx:197, in pandas._libs.index.IndexEngine.get_loc()
-
 File pandas/_libs/hashtable_class_helper.pxi:7668, in pandas._libs.hashtable.PyObjectHashTable.get_item()
-
 File pandas/_libs/hashtable_class_helper.pxi:7676, in pandas._libs.hashtable.PyObjectHashTable.get_item()
 
+
 KeyError: 'f'
-
-The above exception was the direct cause of the following exception:
-
-KeyError                                  Traceback (most recent call last)
-Cell In[26], line 1
-----> 1 s["f"]
-
+The above exception was the direct cause of the following 
+exception: KeyError                                  Traceback (most recent call last)
+Cell In[26], line 1 ----> 1 s["f"]
 File ~/work/pandas/pandas/pandas/core/series.py:959, in Series.__getitem__(self, key)
     954     key = unpack_1tuple(key)
     956 elif key_is_scalar:
@@ -41,7 +39,6 @@ File ~/work/pandas/pandas/pandas/core/series.py:959, in Series.__getitem__(self,
     961 # Convert generator to list before going through hashable part
     962 # (We will iterate through the generator there to check for slices)
     963 if is_iterator(key):
-
 File ~/work/pandas/pandas/pandas/core/series.py:1046, in Series._get_value(self, label, takeable)
    1043     return self._values[label]
    1045 # Similar to Index.get_value, but we do not fall back to positional
@@ -64,12 +61,6 @@ File ~/work/pandas/pandas/pandas/core/indexes/base.py:3648, in Index.get_loc(sel
 
 KeyError: 'f'
 
-      
-====================================================
-Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl.git)
-====================================================
-
-
 
 In [124]: baseball = pd.read_csv("data/baseball.csv")
 
@@ -81,7 +72,7 @@ In [125]: print(baseball)
 98  89533   aloumo01  2007      1  NYN  NL  ...  30.0  5.0  2.0  0.0  3.0  13.0
 99  89534  alomasa02  2007      1  NYN  NL  ...   3.0  0.0  0.0  0.0  0.0   0.0
 
-[100 rows x 23 columns]
+.. [100_rows_23_columns]:
 
 In [126]: baseball.info()
 <class 'pandas.DataFrame'>
@@ -114,7 +105,7 @@ Data columns (total 23 columns):
  22  gidp    100 non-null    float64
 dtypes: float64(9), int64(11), str(3)
 memory usage: 19.5 KB
-
+---
 
 
 .. code-block:: python
@@ -467,7 +458,1002 @@ console.log('Writing custom data to: ' + outPath)
 fs.writeFileSync(outPath, JSON.stringify(customDataObject, null, 2))
 console.log('Done')
 
+.. MODELINTEGRATION:
+# Building Your First AI App with Inference Providers
 
+You've learned the basics and understand the provider ecosystem. Now let's build something practical: an **AI Meeting Notes** app that transcribes audio files and generates summaries with action items.
+
+This project demonstrates real-world AI orchestration using multiple specialized providers within a single application.
+
+## Project Overview 
+
+Our app will:
+1. **Accept audio** as a microphone input through a web interface
+2. **Transcribe speech** using a fast speech-to-text model
+3. **Generate summaries** using a powerful language model
+4. **Deploy to the web** for easy sharing
+
+<hfoptions id="tech-stack">
+<hfoption id="python">
+
+**Tech Stack**: Gradio (for the UI) + Inference Providers (for the AI)
+
+</hfoption>
+<hfoption id="javascript">
+
+**Tech Stack**: HTML/JavaScript (for the UI) + Inference Providers (for the AI)
+
+We'll use HTML and JavaScript for the UI just to keep things simple and agnostic, but if you want to see more mature examples, you can check out the [Hugging Face JS spaces](https://huggingface.co/huggingfacejs/spaces) page.
+
+</hfoption>
+</hfoptions>
+
+## Step 1: Set Up Authentication
+
+<hfoptions id="auth">
+<hfoption id="python">
+
+Before we start coding, authenticate with Hugging Face using the CLI:
+
+```bash
+pip install huggingface_hub
+hf auth login
+```
+
+When prompted, paste your Hugging Face token. This handles authentication automatically for all your inference calls. You can generate one from [your settings page](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained).
+
+</hfoption>
+<hfoption id="javascript">
+
+You'll need your Hugging Face token. Get one from [your settings page](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained). We can set it as an environment variable in our app.
+
+```bash
+export HF_TOKEN="your_token_here"
+```
+
+```javascript
+// Add your token at the top of your script
+const HF_TOKEN = process.env.HF_TOKEN;
+```
+
+> [!WARNING]
+> When we deploy our app to Hugging Face Spaces, we'll need to add our token as a secret. This is a secure way to handle the token and avoid exposing it in the code.
+
+</hfoption>
+</hfoptions>
+
+## Step 2: Build the User Interface
+
+<hfoptions id="ui">
+<hfoption id="python">
+
+Now let's create a simple web interface using Gradio:
+
+```python
+import gradio as gr
+from huggingface_hub import InferenceClient
+
+def process_meeting_audio(audio_file):
+    """Process uploaded audio file and return transcript + summary"""
+    if audio_file is None:
+        return "Please upload an audio file.", ""
+    
+    # We'll implement the AI logic next
+    return "Transcript will appear here...", "Summary will appear here..."
+
+# Create the Gradio interface
+app = gr.Interface(
+    fn=process_meeting_audio,
+    inputs=gr.Audio(label="Upload Meeting Audio", type="filepath"),
+    outputs=[
+        gr.Textbox(label="Transcript", lines=10),
+        gr.Textbox(label="Summary & Action Items", lines=8)
+    ],
+    title="🎤 AI Meeting Notes",
+    description="Upload an audio file to get an instant transcript and summary with action items."
+)
+
+if __name__ == "__main__":
+    app.launch()
+```
+
+Here we're using Gradio's `gr.Audio` component to either upload an audio file or use the microphone input. We're keeping things simple with two outputs: a transcript and a summary with action items.
+
+</hfoption>
+<hfoption id="javascript">
+
+For JavaScript, we'll create a clean HTML interface with native file upload and a simple loading state:
+
+```html
+<body>
+    <h1>🎤 AI Meeting Notes</h1>
+    
+    <div class="upload" onclick="document.getElementById('file').click()">
+        <input type="file" id="file" accept="audio/*">
+        <p>Upload audio file</p>
+        <button type="button">Choose File</button>
+    </div>
+    
+    <div class="loading" id="loading">Processing...</div>
+    
+    <div class="results" id="results">
+        <div class="result">
+            <h3>📝 Transcript</h3>
+            <div id="transcript"></div>
+        </div>
+        <div class="result">
+            <h3>📋 Summary</h3>
+            <div id="summary"></div>
+        </div>
+    </div>
+</body>
+```
+
+This creates a clean drag-and-drop interface with styled results sections for the transcript and summary.
+
+Our application can then use the `InferenceClient` from `huggingface.js` to call the transcription and summarization functions.
+
+```javascript
+import { InferenceClient } from 'https://esm.sh/@huggingface/inference';
+
+// Access the token from Hugging Face Spaces secrets
+const HF_TOKEN = window.huggingface?.variables?.HF_TOKEN;
+// Or if you're running locally, you can set it as an environment variable
+// const HF_TOKEN = process.env.HF_TOKEN;
+
+document.getElementById('file').onchange = async (e) => {
+    if (!e.target.files[0]) return;
+    
+    const file = e.target.files[0];
+    
+    show(document.getElementById('loading'));
+    hide(document.getElementById('results'), document.getElementById('error'));
+    
+    try {
+        const transcript = await transcribe(file);
+        const summary = await summarize(transcript);
+
+        document.getElementById('transcript').textContent = transcript;
+        document.getElementById('summary').textContent = summary;
+        
+        hide(document.getElementById('loading'));
+        show(document.getElementById('results'));
+    } catch (error) {
+        hide(document.getElementById('loading'));
+        showError(`Error: ${error.message}`);
+    }
+};
+```
+
+We'll also need to implement the `transcribe` and `summarize` functions.
+
+</hfoption>
+</hfoptions>
+
+## Step 3: Add Speech Transcription
+
+<hfoptions id="transcription">
+<hfoption id="python">
+
+Now let's implement the transcription using OpenAI's `whisper-large-v3` model for fast, reliable speech processing.
+
+> [!TIP]
+> We'll use the `auto` provider to automatically select the first available provider for the model. You can define your own priority list of providers in the [Inference Providers](https://huggingface.co/settings/inference-providers) page.
+
+```python
+def transcribe_audio(audio_file_path):
+    """Transcribe audio using fal.ai for speed"""
+    client = InferenceClient(provider="auto")
+    
+    # Pass the file path directly - the client handles file reading
+    transcript = client.automatic_speech_recognition(
+        audio=audio_file_path,
+        model="openai/whisper-large-v3"
+    )
+    
+    return transcript.text
+```
+
+
+</hfoption>
+<hfoption id="javascript">
+
+Now let's implement the transcription using OpenAI's `whisper-large-v3` model for fast, reliable speech processing.
+
+> [!TIP]
+> We'll use the `auto` provider to automatically select the first available provider for the model. You can define your own priority list of providers in the [Inference Providers](https://huggingface.co/settings/inference-providers) page.
+
+```javascript
+import { InferenceClient } from 'https://esm.sh/@huggingface/inference';
+
+async function transcribe(file) {
+    const client = new InferenceClient(HF_TOKEN);
+
+    const output = await client.automaticSpeechRecognition({
+        data: file,
+        model: "openai/whisper-large-v3-turbo",
+        provider: "auto"
+    });
+    
+    return output.text || output || 'Transcription completed';
+}
+```
+
+
+</hfoption>
+</hfoptions>
+
+## Step 4: Add AI Summarization
+
+<hfoptions id="summarization">
+<hfoption id="python">
+
+Next, we'll use a powerful language model like `deepseek-ai/DeepSeek-R1-0528` from DeepSeek via an Inference Provider, and just like in the previous step, we'll use the `auto` provider to automatically select the first available provider for the model.
+We will define a custom prompt to ensure the output is formatted as a summary with action items and decisions made:
+
+```python
+def generate_summary(transcript):
+    """Generate summary using an Inference Provider"""
+    client = InferenceClient(provider="auto")
+    
+    prompt = f"""
+    Analyze this meeting transcript and provide:
+    1. A concise summary of key points
+    2. Action items with responsible parties
+    3. Important decisions made
+    
+    Transcript: {transcript}
+    
+    Format with clear sections:
+    ## Summary
+    ## Action Items  
+    ## Decisions Made
+    """
+    
+    response = client.chat.completions.create(
+        model="deepseek-ai/DeepSeek-R1-0528",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=1000
+    )
+    
+    return response.choices[0].message.content
+```
+
+
+</hfoption>
+<hfoption id="javascript">
+
+Next, we'll use a powerful language model like `deepseek-ai/DeepSeek-R1-0528` from DeepSeek via an Inference Provider, and just like in the previous step, we'll use the `auto` provider to automatically select the first available provider for the model.
+We will define a custom prompt to ensure the output is formatted as a summary with action items and decisions made:
+
+```javascript
+async function summarize(transcript) {
+    const client = new InferenceClient(HF_TOKEN);
+
+    const prompt = `Analyze this meeting transcript and provide:
+    1. A concise summary of key points
+    2. Action items with responsible parties
+    3. Important decisions made
+
+    Transcript: ${transcript}
+
+    Format with clear sections:
+    ## Summary
+    ## Action Items  
+    ## Decisions Made`;
+
+    const response = await client.chatCompletion({
+        model: "deepseek-ai/DeepSeek-R1-0528",
+        messages: [
+            {
+                role: "user", 
+                content: prompt
+            }
+        ],
+        max_tokens: 1000
+    }, {
+        provider: "auto"
+    });
+    
+    return response.choices?.[0]?.message?.content || response || 'No summary available';
+}
+```
+
+
+</hfoption>
+</hfoptions>
+
+## Step 5: Deploy on Hugging Face Spaces
+
+<hfoptions id="deployment">
+<hfoption id="python">
+
+To deploy, we'll need to create an `app.py` file and upload it to Hugging Face Spaces.
+
+<details>
+<summary><strong>📋 Click to view the complete app.py file</strong></summary>
+
+```python
+import gradio as gr
+from huggingface_hub import InferenceClient
+
+
+def transcribe_audio(audio_file_path):
+    """Transcribe audio using an Inference Provider"""
+    client = InferenceClient(provider="auto")
+
+    # Pass the file path directly - the client handles file reading
+    transcript = client.automatic_speech_recognition(
+        audio=audio_file_path, model="openai/whisper-large-v3"
+    )
+
+    return transcript.text
+
+
+def generate_summary(transcript):
+    """Generate summary using an Inference Provider"""
+    client = InferenceClient(provider="auto")
+
+    prompt = f"""
+    Analyze this meeting transcript and provide:
+    1. A concise summary of key points
+    2. Action items with responsible parties
+    3. Important decisions made
+    
+    Transcript: {transcript}
+    
+    Format with clear sections:
+    ## Summary
+    ## Action Items  
+    ## Decisions Made
+    """
+
+    response = client.chat.completions.create(
+        model="deepseek-ai/DeepSeek-R1-0528",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=1000,
+    )
+
+    return response.choices[0].message.content
+
+
+def process_meeting_audio(audio_file):
+    """Main processing function"""
+    if audio_file is None:
+        return "Please upload an audio file.", ""
+
+    try:
+        # Step 1: Transcribe
+        transcript = transcribe_audio(audio_file)
+
+        # Step 2: Summarize
+        summary = generate_summary(transcript)
+
+        return transcript, summary
+
+    except Exception as e:
+        return f"Error processing audio: {str(e)}", ""
+
+
+# Create Gradio interface
+app = gr.Interface(
+    fn=process_meeting_audio,
+    inputs=gr.Audio(label="Upload Meeting Audio", type="filepath"),
+    outputs=[
+        gr.Textbox(label="Transcript", lines=10),
+        gr.Textbox(label="Summary & Action Items", lines=8),
+    ],
+    title="🎤 AI Meeting Notes",
+    description="Upload audio to get instant transcripts and summaries.",
+)
+
+if __name__ == "__main__":
+    app.launch()
+```
+
+Our app will run on port 7860 and look like this:
+
+![Gradio app](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/inference-providers-guides/gradio-app.png)
+
+</details>
+
+To deploy, we'll need to create a new Space and upload our files.
+
+1. **Create a new Space**: Go to [huggingface.co/new-space](https://huggingface.co/new-space)
+2. **Choose Gradio SDK** and make it public
+3. **Upload your files**: Upload `app.py`
+4. **Add your token**: In Space settings, add `HF_TOKEN` as a secret (get it from [your settings](https://huggingface.co/settings/tokens))
+5. **Launch**: Your app will be live at `https://huggingface.co/spaces/your-username/your-space-name`
+
+> **Note**: While we used CLI authentication locally, Spaces requires the token as a secret for the deployment environment.
+
+</hfoption>
+<hfoption id="javascript">
+
+For JavaScript deployment, create a simple static HTML file:
+
+<details>
+<summary><strong>📋 Click to view the complete index.html file</strong></summary>
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎤 AI Meeting Notes</title>
+    <style>
+        body { font-family: system-ui; max-width: 600px; margin: 50px auto; padding: 20px; }
+        .upload { border: 2px dashed #ccc; padding: 40px; text-align: center; margin: 20px 0; cursor: pointer; }
+        .upload:hover { border-color: #007bff; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+        .loading { display: none; text-align: center; margin: 20px 0; }
+        .results { display: none; margin-top: 20px; }
+        .result { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 4px; }
+        .error { color: red; background: #ffe6e6; padding: 15px; border-radius: 4px; display: none; }
+        input[type="file"] { display: none; }
+    </style>
+</head>
+<body>
+    <h1>🎤 AI Meeting Notes</h1>
+       
+    <div class="upload" onclick="document.getElementById('file').click()">
+        <input type="file" id="file" accept="audio/*">
+        <p>Upload audio file</p>
+        <button type="button">Choose File</button>
+    </div>
+    
+    <div class="loading" id="loading">Processing...</div>
+    <div class="error" id="error"></div>
+    
+    <div class="results" id="results">
+        <div class="result">
+            <h3>📝 Transcript</h3>
+            <div id="transcript"></div>
+        </div>
+        <div class="result">
+            <h3>📋 Summary</h3>
+            <div id="summary"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { InferenceClient } from 'https://esm.sh/@huggingface/inference';
+        
+        // Access the token from Hugging Face Spaces secrets
+        const HF_TOKEN = window.huggingface?.variables?.HF_TOKEN;
+        
+        // Add error handling for missing token
+        if (!HF_TOKEN) {
+            showError('HF_TOKEN not configured. Please add it in Space settings.');
+            return;
+        }
+        
+        document.getElementById('file').onchange = async (e) => {
+            if (!e.target.files[0]) return;
+            
+            const file = e.target.files[0];
+            
+            show(document.getElementById('loading'));
+            hide(document.getElementById('results'), document.getElementById('error'));
+            
+            try {
+                console.log('🎤 Starting transcription...');
+                const transcript = await transcribe(file);
+                console.log('✅ Transcription completed:', transcript.substring(0, 100) + '...');
+                
+                console.log('🖊️ Starting summarization...');
+                const summary = await summarize(transcript);
+                console.log('✅ Summary completed:', summary.substring(0, 100) + '...');
+                
+                document.getElementById('transcript').textContent = transcript;
+                document.getElementById('summary').textContent = summary;
+                
+                hide(document.getElementById('loading'));
+                show(document.getElementById('results'));
+            } catch (error) {
+                hide(document.getElementById('loading'));
+                showError(`Error: ${error.message}`);
+            }
+        };
+        
+        async function transcribe(file) {
+            const client = new InferenceClient(HF_TOKEN);
+
+            const output = await client.automaticSpeechRecognition({
+                data: file,
+                model: "openai/whisper-large-v3-turbo",
+                provider: "auto"
+            });
+            
+            return output.text || output || 'Transcription completed';
+        }
+        
+        async function summarize(transcript) {
+            const client = new InferenceClient(HF_TOKEN);
+
+            const prompt = `Analyze this meeting transcript and provide:
+            1. A concise summary of key points
+            2. Action items with responsible parties
+            3. Important decisions made
+
+            Transcript: ${transcript}
+
+            Format with clear sections:
+            ## Summary
+            ## Action Items  
+            ## Decisions Made`;
+
+            const response = await client.chatCompletion({
+                model: "deepseek-ai/DeepSeek-R1-0528",
+                messages: [
+                    {
+                        role: "user", 
+                        content: prompt
+                    }
+                ],
+                max_tokens: 1000
+            }, {
+                provider: "auto"
+            });
+            
+            return response.choices?.[0]?.message?.content || response || 'No summary available';
+        }
+        
+        const show = el => el.style.display = 'block';
+        const hide = (...els) => els.forEach(el => el.style.display = 'none');
+        const showError = msg => {
+            const error = document.getElementById('error');
+            error.innerHTML = msg;
+            show(error);
+        };
+    </script>
+</body>
+</html>
+```
+
+We can run our app locally by going to the file from our browser.
+
+![Local app](https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/inference-providers-guides/js-app.png)
+
+</details>
+
+To deploy:
+
+1. **Create a new Space**: Go to [huggingface.co/new-space](https://huggingface.co/new-space)
+2. **Choose Static SDK** and make it public
+3. **Upload your file**: Upload `index.html`
+4. **Add your token as a secret**: In Space settings, add `HF_TOKEN` as a **Secret**
+5. **Launch**: Your app will be live at `https://huggingface.co/spaces/your-username/your-space-name`
+
+> **Note**: The token is securely managed by Hugging Face Spaces and accessed via `window.huggingface.variables.HF_TOKEN`.
+
+</hfoption>
+</hfoptions>
+
+## Next Steps
+
+Congratulations! You've created a production-ready AI application that: handles real-world tasks, provides a professional interface, scales automatically, and costs efficiently. If you want to explore more providers, you can check out the [Inference Providers](https://huggingface.co/inference-providers) page. Or here are some ideas for next steps:
+
+- **Improve your prompt**: Try different prompts to improve the quality for your use case
+- **Try different models**: Experiment with various speech and text models
+- **Compare performance**: Benchmark speed vs. accuracy across providers
+
+
+<EditOnGithub source="https://github.com/huggingface/hub-docs/blob/main/docs/inference-providers/guides/building-first-app.md" />
+
+
+.. ESM-integration::
+
+# Multi-value Extension
+
+## Introduction
+
+### Background
+
+* Currently, functions and instructions consume multiple operands but can produce at most one result
+  - functions: `value* -> value?`
+  - instructions: `value* -> value?`
+  - blocks: `[] -> value?`
+
+* In a stack machine, these asymmetries are artificial restrictions
+  - were imposed to simplify the initial WebAssembly release (multiple results deferred to post-MVP)
+  - can easily be lifted by generalising to value* -> value*
+
+* Generalised semantics is well-understood
+  - https://github.com/WebAssembly/spec/tree/main/papers/pldi2017.pdf
+
+* Semi-complete implementation of multiple results in V8
+
+
+### Motivation
+
+* Multiple return values for functions:
+  - enable unboxing of tuples or structs returned by value
+  - efficient compilation of multiple return values
+
+* Multiple results for instructions:
+  - enable instructions producing several results (divmod, arithmetics with carry)
+
+* Inputs to blocks:
+  - loop labels can have arguments
+  - can represent phis on backward edges
+  - enable future `pick` operator to cross block boundary
+  - macro definability of instructions with inputs
+    * `i32.select3` = `dup if ... else ... end`
+
+
+## Examples
+
+### Functions with multiple return Values
+
+A simple swap function.
+```wasm
+(func $swap (param i32 i32) (result i32 i32)
+	(local.get 1) (local.get 0)
+)
+```
+
+An addition function returning an additional carry bit.
+```wasm
+(func $add64_u_with_carry (param $i i64) (param $j i64) (param $c i32) (result i64 i32)
+	(local $k i64)
+	(local.set $k
+		(i64.add (i64.add (local.get $i) (local.get $j)) (i64.extend_i32_u (local.get $c)))
+	)
+	(return (local.get $k) (i64.lt_u (local.get $k) (local.get $i)))
+)
+```
+
+### Instructions with multiple results
+
+* `iNN.divrem` : \[iNN iNN\] -> \[iNN iNN\]
+* `iNN.add_carry` : \[iNN iNN i32\] -> \[iNN i32\]
+* `iNN.sub_carry` : \[iNN iNN i32\] -> \[iNN i32\]
+* etc.
+
+
+### Blocks with inputs
+
+Conditionally manipulating a stack operand without using a local.
+```wasm
+(func $add64_u_saturated (param i64 i64) (result i64)
+	(call $add64_u_with_carry (local.get 0) (local.get 1) (i32.const 0))
+	(if (param i64) (result i64)
+		(then (drop) (i64.const 0xffff_ffff_ffff_ffff))
+	)
+)
+```
+
+An iterative factorial function whose loop doesn't use locals, but uses arguments like phis.
+```wasm
+(func $pick0 (param i64) (result i64 i64)
+	(local.get 0) (local.get 0)
+)
+
+(func $pick1 (param i64 i64) (result i64 i64 i64)
+	(local.get 0) (local.get 1) (local.get 0)
+)
+
+(func $fac (param i64) (result i64)
+	(i64.const 1) (local.get 0)
+	(loop $l (param i64 i64) (result i64)
+		(call $pick1) (call $pick1) (i64.mul)
+		(call $pick1) (i64.const 1) (i64.sub)
+		(call $pick0) (i64.const 0) (i64.gt_u)
+		(br_if $l)
+		(call $pick1) (return)
+	)
+)
+```
+
+Macro definition of an instruction expanding into an `if`.
+```
+i64.select3  =
+     dup if (param i64 i64 i64 i32) (result i64) … select ... else … end
+```
+
+Macro expansion of `if` itself.
+```
+if (param t*) (result u*) A else B end  =
+      block (param t* i32) (result u*)
+          block (param t* i32) (result t*) (br_if 0)  B  (br 1) end  A
+      end
+```
+
+
+## Spec Changes
+
+### Structure
+
+The structure of the language is mostly unaffected. The only changes are to the type syntax:
+
+* *resulttype* is generalised from \[*valtype*?\] to \[*valtype*\*\]
+* block types (in `block`, `loop`, `if` instructions) are generalised from *resulttype* to *functype*
+
+
+### Validation
+
+Arity restrictions are removed:
+
+* no arity check is imposed for valid *functype*
+* all occurrences of superscript "?" are replaced with superscript "\*" (e.g. blocks, calls, return)
+
+Validation for block instructions is generalised:
+
+* The type of `block`, `loop`, and `if` is the *functype* \[t1\*\] -> \[t2\*\] given as the block type
+* The type of the label of `block` and `if` is \[t2\*\]
+* The type of the label of `loop` is \[t1\*\]
+
+
+### Execution
+
+Nothing much needs to be done for multiple results:
+
+* replace all occurrences of superscript "?" with superscript "\*".
+
+The only non-mechanical change involves entering blocks with operands:
+
+* The operand values are popped of the stack, and pushed right back after the label.
+* See paper for formulation of formal reduction rules
+
+
+### Binary Format
+
+The binary requires a change to allow function types as block types. That requires extending the current ad-hoc encoding to allow references to function types.
+
+* `blocktype` is extended to the following format:
+  ```
+  blocktype ::= 0x40       => [] -> []
+             |  t:valtype  => [] -> [t]
+             |  ft:typeidx => ft
+  ```
+
+### Text Format
+
+The text format is mostly unaffected, except that the syntax for block types is generalised:
+
+* `resulttype` is replaced with `blocktype`, whose syntax is
+  ```
+  blocktype ::= vec(param) vec(result)
+  ```
+
+* `block`, `loop`, and `if` instructions contain a `blocktype` instead of `resulttype`.
+
+* The existing abbreviations for functions apply to block types.
+
+
+### Soundness Proof
+
+The typing of administrative instructions need to be generalised, see the paper.
+
+
+## Possible Alternatives and Extensions
+
+### More Flexible Block and Function Types
+
+* Instead of inline function types, could use references to the type section
+  - more bureaucracy in the semantics, but otherwise no problem
+
+* Could also allow both
+  - inline function types are slightly more compact for one-off uses
+
+* Could even unify the encoding of block types with function types everywhere
+  - allow inline types even for functions, for the same benefits
+
+
+## Open Questions
+
+* Destructuring or reshuffling multiple values requires locals, is that enough?
+  - could add `pick` instruction (generalised `dup`)
+  - could add `let` instruction (if you squint, a generalised `swap`)
+  - different use cases?
+
+:task:
+# WebAssembly/ES Module Integration
+
+This page describes WebAssembly as an ES Module. With this proposal, WebAssembly may be loaded with a JavaScript `import` statement, or a `<script type=module>` tag.
+
+This proposal is at Phase 3 in [WebAssembly's process](https://github.com/WebAssembly/meetings/blob/master/process/phases.md).
+
+## Motivation
+
+### Improve Ergonomics of WebAssembly Module Instantiation
+
+Currently, there is an imperative JS API for instantiating WebAssembly modules. This requires users to manually fetch a module file, wire up imports, and run `WebAssembly.instantiate` or `WebAssembly.instantiateStreaming`.
+
+```js
+let req = fetch("./myModule.wasm");
+
+let imports = {
+  aModule: {
+    anImport
+  }
+};
+
+WebAssembly
+  .instantiateStreaming(req, imports)
+  .then(
+    obj => obj.instance.exports.foo()
+  );
+```
+
+A declarative API would improve the ergonomics by making this work happen implicitly.
+
+```js
+import { foo } from "./myModule.wasm";
+foo();
+```
+
+Then by integrating with [Source Phase Imports](https://github.com/tc39/proposal-source-phase-imports), arbitrary instantiations with custom imports can still be supported.
+
+```js
+import source myModule from "./myModule.wasm";
+
+const { foo: foo1 } = new WebAssembly.Instance(myModule, { ...imports1 });
+foo1();
+
+const { foo: foo2 } = new WebAssembly.Instance(myModule, { ...imports2 });
+foo2();
+```
+
+For dynamically loaded modules, dynamic `import()` integration is also supported for both phases.
+
+```js
+const { foo: foo1 } = await import("./myModule.wasm");
+
+const myModule = await import.source("./myModule.wasm");
+const { foo: foo2 } = await WebAssembly.instantiate(myModule, { ...imports });
+```
+
+### Unify WebAssembly Tooling Implementations
+
+The need for WebAssembly modules integrated with the ES module graph has been broadly identified by JavaScript tools. For example, support for WebAssembly modules has been implemented in [webpack](https://webpack.js.org/configuration/module/#ruletype), a [Rollup plugin](https://github.com/rollup/plugins/tree/master/packages/wasm) and [Parcel](https://en.parceljs.org/webAssembly.html).
+
+By standardizing the integration, tools can support building WebAssembly applications providing ergonomic workflows that work with static analysis for working with Wasm on JavaScript platforms in a unified way.
+
+For server runtimes, [Deno has implemented](https://deno.com/blog/v2.1#first-class-wasm-support) this proposal and [Node.js' implementation is behind a flag](https://nodejs.org/docs/latest/api/esm.html#wasm-modules) (both pending source phase supports), while [ES Module Shims](https://github.com/guybedford/es-module-shims#wasm-modules) provides a full browser polyfill.
+
+## Implementation
+
+### Source Phase Imports
+
+[Source phase imports](https://github.com/tc39/proposal-source-phase-imports) expose the source phase of the module loading process, corresponding to a `WebAssembly.Module` source.
+
+For WebAssembly, the benefit of this import phase is being able to support multiple instantiation and custom instantiation or imports, while still utilizing the ESM integration for portable module resolution and fetching.
+
+Source phase objects exposed by the module system must contain `AbstractModuleSource` in their prototype chain, therefore to support these imports for WebAssembly, the prototype of `WebAssembly.Module` is updated accordingly.
+
+### Host Instance Linking
+
+While the source phase import model provides a flexible ESM integration for custom multi-instantiation, integration with the host linking model provides the ability to get directly executed Wasm modules.
+
+While many WebAssembly modules may not be functional under this linking model, it allows for a subset of Wasm modules to support direct instancing with access to the JS module graph, that can still be useful in many scenarios.
+
+### Import & Export Embedding
+
+Fetching and parsing modules is a recursive process, which can be thought of as the following steps, defined in the host specification:
+
+1. Figure out what the module specifier is pointing to, and fetch the module.
+1. Parse the module, to find further dependencies.
+1. Fetch and parse all modules that are imported by this parsed module, if they aren't already in the cache.
+
+If any syntax error is reached, the algorithm fails, throwing the error.
+
+Module parsing identifies the named exports that this module defines. In WebAssembly, exports can be functions, WebAssembly.Table objects, WebAssembly.Memory objects, and WebAssembly.Global objects. When future WebAssembly types are exposed through the [WebAssembly JS API](https://webassembly.github.io/spec/js-api/index.html), the intention is to allow them to be exported via WebAssembly ESM modules as well.
+
+In the proposed HTML integration of WebAssembly modules, the [module name](https://webassembly.github.io/spec/core/syntax/modules.html#syntax-import) in an import is interpreted the same as a JavaScript module specifier: basically, as a URL. The [import maps](https://github.com/wicg/import-maps/) proposal adds more expressiveness to module specifiers.
+
+### "Snapshotting" imports
+
+When imports are provided to WebAssembly modules in the host instance linking model, they are provided directly upfront.
+
+- This handling of imports could be called a "snapshotting" process: Later updates to the imported values won't be reflected within the WebAssembly module.
+- Circular WebAssembly modules are not supported: One of them will run first, and that one will find that the exports of the other aren't yet initialized, leading to a ReferenceError.
+
+See the FAQ for more explanation of the rationale for this design decision, and what features it enables which would be difficult or impossible otherwise.
+
+### Progressive Implementation Support
+
+It is possible to implement the Wasm-ESM integration in two stages:
+
+1. In the first stage only source phase imports of Wasm are supported (`import source fibModule from "./fib.wasm"`).
+2. In the second stage, evaluation phase imports would be supported too (`import { fib } from "./fib.wasm"`).
+
+If initially implementing just source phase imports, the `GetExportedNames`, `ResolveExport`, `InitializeEnvironment`, and `ExecuteModule` abstract operations can be implemented as abstract operations unconditionally throwing a `SyntaxError` exception. In this case, module fetch and CSP integration is still required to be implemented as specified in this proposal.
+
+Implementers are encouraged to ship both stages at once, but it is deemed OK for implementers to initially ship the first stage and then quickly follow up with the second stage, if this aids "time to ship" in implementations.
+
+### Content Security Policy
+
+Wasm modules imported through the ES Module system should be verified for compilation by CSP against the `script-src` directive, both for static and dynamic imports. This allows Wasm and JS to be equally supported in the ESM
+integration under CSP policies.
+
+While Wasm is currently fully sandboxed, having equal access to imports to JS provides it equal capabilities to execution primitives, so that it should not be considered a weaker capability from an ESM integration perspective.
+
+## FAQ
+
+### Does the source phase replace the instance linking?
+
+Originally the ESM integration only provided the direct host instance linking model, which could be considered to be a restrictive form of linking for only some use cases for Wasm.
+
+Supporting the [source phase](https://github.com/tc39/proposal-source-phase-imports) ESM integration is therefore a more general form of the ESM integration that shares the host resolver, while retaining linking flexibility for Js host embedding of Wasm.
+
+While the source phase does not replace the instance linking model, is does offer a more general and flexible ESM integration.
+
+### How does this relate to the Component Model?
+
+The [Component Model](https://github.com/WebAssembly/component-model) has its own [ESM integration embedding](https://github.com/WebAssembly/component-model/blob/main/design/mvp/Explainer.md#ESM-integration), which is designed to extend the ESM integration specified here.
+
+In components it is possible to import both other components and core modules through the host linker, and it is possible to obtain them either as instances or uninstantiated modules. This linking model of the component model is therefore fully compatible with the linking model of the ESM integration, where these represent the host instance linking and source phases respectively and components effectively as a third module type. Components are distinguished from core Wasm in their leading bytes. Components may be more likely to support a highly usable host instance linking model ESM integration than core Wasm, while their source phase imports in turn would also be useful in virtualization workflows in JS embeddings.
+
+### Why does this proposal not use import attributes?
+
+[Import attributes](https://github.com/tc39/proposal-import-attributes) parameterize module imports in the module system. Currently HTML specifies a `"type"` attribute which is a requirement for CSS or JSON module imports due to their having different security privileges over full execution.
+
+When importing WebAssembly from JavaScript, no `"type"` should be required since they share the same security privilege level in the ESM integration and in order to ensure transparent interoperability of the formats.
+
+Future Wasm extensions may include supporting attributes for imports from WebAssembly modules.
+
+### How would host instantiation work, in some concrete examples?
+
+See some examples of these semantics in [EXAMPLES.md](./EXAMPLES.md).
+
+### Does this proposal expose named exports from WebAssembly?
+
+Yes. In this proposal, each WebAssembly export has its own named binding. To expose a default export from a WebAssembly module, simply make an export called `default`.
+
+### How are imports and exports converted from JavaScript values?
+
+The conversion is based on the type that the import and export was declared as, which is inside the WebAssembly module. The conversion algorithm is the same as the JS API's [instantiate a WebAssembly module](https://webassembly.github.io/spec/js-api/index.html#instantiate-a-webassembly-module) algorithm.
+
+### When one WebAssembly module imports another one, will there be overhead due to converting back and forth to JS values?
+
+Note that exports of ES Module Records always have values that can be directly treated as JavaScript values. Although we're talking about conversions to and from JavaScript for these exports, it's expected that, in native implementations, the conversion to and from Javascript would "cancel out" and not lead to the use of wrappers in practice.
+
+### Why are WebAssembly modules instantiated during the "Evaluation" phase?
+
+WebAssembly module instantiation is when imports are passed in. Even if it's possible to make a trampoline for functions in some cases, or mutate a global, there's no way to indirectly access Memory or Tables. It may be possible to hoist the definition of Globals, Memory or Tables when they are created from WebAssembly, but it's not possible to manipulate those objects when exported from JavaScript, which may initialize these based on the execution of arbitrary JavaScript code.
+
+This is even more accute in the context of the [WebAssembly GC proposal](https://github.com/WebAssembly/gc/blob/master/proposals/gc/Overview.md): When WebAssembly modules may import and export types, these types similarly need to be available when the module is instantiated. At they same time, they are exported as a value from another module.
+
+If instantiation took place earlier (e.g., during the Parse or Link phases), then these imports would not yet be available, and so it would not be possible to properly instantiate the module.
+
+### Even if not some imports have a snapshot, could we use a trampoline for functions?
+
+The snapshotting semantics may be the biggest difference between this proposal and the semantics of WebAssembly module support in tooling. As explained above, live bindings are simply not possible for many types that WebAssembly may import. One frequent feature request is for functions among WebAssembly modules to be imported in a circular way.
+
+The idea here would be to use a trampoline: in the Link phase, create a function and initialize a binding for it which would look at whether the underlying import has been initialized yet, and calls it if so.
+
+The main problem with this proposal is, for detailed reasons, it would be very difficult to eliminate the various kinds of overhead associated with this trampoline. In practice, it may behave like a nested function call. In a future with many small WebAssembly modules, doubling the cross-module function call overhead does not sound very attractive, when there's been so much work put into reducing function call overhead.
+
+Instead of including this check in the default semantics of functions, a trampoline can be explicitly constructed which does this check and passes control on to the maybe-initialized function. Initially, this trampoline can be constructed by bundlers. In a potential follow-on proposal, the trampoline may be generated natively. See https://github.com/WebAssembly/esm-integration/issues/17 for further discussion.
+
+### What does snapshotting imports mean for importing globals?
+
+When a WebAssembly module imports a Global, there are two possible modes of operation:
+- If the Global type is immutable (as declared in the importing module), then the exporting module may either export a numeric value or an immutable Global.
+- If the Global type is mutable, then the exporting module must export a mutable Global. The snapshot here is "shallow" in the sense that modifications *within* this particular mutable Global object *will* be visible in the importing module (but, if the exporting module overwrites the entire binding with some unrelated value, this will not be noticed by the importing module).
+
+### Can Web APIs be imported via modules?
+
+In general, Web APIs are exposed through properties of the JavaScript global object, and are not available through ES Modules. See [this WebIDL](https://github.com/heycam/webidl/issues/676) issue for some early discussion about exposing Web APIs through modules.
+
+To start using this proposal ahead of that change, create a JavaScript module which exports the appropriate Web APIs that you need.
+
+### Is WebAssembly.instantiateStreaming still recommended for custom instantiation?
+
+In many cases, the source phase import can replace instantiate streaming workflows, allowing for better compatibility with JS tools when it is fully supported.
+
+In addition, for dynamically loaded Wasm modules, `import()` and `import.source()` can be used to obtain these in a way that integrates with the security policy of the module system (and CSP in browsers).
+
+If custom compilation options are needed or if custom streams need to be provided then the JS and Web APIs can provide a useful fallback, where instantiateStreaming and compileStreaming are the preferred direct APIs to use.
+
+### Where is the specification for this proposal?
+
+If you want to dig into the details, see [the updated WebAssembly JS API](https://webassembly.github.io/esm-integration/js-api/index.html#esm-integration) and [th HTML integration PR](https://github.com/whatwg/html/pull/10380).
+
+:target:
+https://github.com/Web4application/Openpyxl.git
 
 # pybars3 - Handlebars.js for Python 3 and 2
 
