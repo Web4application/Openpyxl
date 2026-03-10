@@ -64,8 +64,58 @@ File ~/work/pandas/pandas/pandas/core/indexes/base.py:3648, in Index.get_loc(sel
 
 KeyError: 'f'
 
-Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
-================================================================================
+      
+====================================================
+Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl.git)
+====================================================
+
+
+
+In [124]: baseball = pd.read_csv("data/baseball.csv")
+
+In [125]: print(baseball)
+       id     player  year  stint team  lg  ...    so  ibb  hbp   sh   sf  gidp
+0   88641  womacto01  2006      2  CHN  NL  ...   4.0  0.0  0.0  3.0  0.0   0.0
+1   88643  schilcu01  2006      1  BOS  AL  ...   1.0  0.0  0.0  0.0  0.0   0.0
+..    ...        ...   ...    ...  ...  ..  ...   ...  ...  ...  ...  ...   ...
+98  89533   aloumo01  2007      1  NYN  NL  ...  30.0  5.0  2.0  0.0  3.0  13.0
+99  89534  alomasa02  2007      1  NYN  NL  ...   3.0  0.0  0.0  0.0  0.0   0.0
+
+[100 rows x 23 columns]
+
+In [126]: baseball.info()
+<class 'pandas.DataFrame'>
+RangeIndex: 100 entries, 0 to 99
+Data columns (total 23 columns):
+ #   Column  Non-Null Count  Dtype  
+---  ------  --------------  -----  
+ 0   id      100 non-null    int64  
+ 1   player  100 non-null    str    
+ 2   year    100 non-null    int64  
+ 3   stint   100 non-null    int64  
+ 4   team    100 non-null    str    
+ 5   lg      100 non-null    str    
+ 6   g       100 non-null    int64  
+ 7   ab      100 non-null    int64  
+ 8   r       100 non-null    int64  
+ 9   h       100 non-null    int64  
+ 10  X2b     100 non-null    int64  
+ 11  X3b     100 non-null    int64  
+ 12  hr      100 non-null    int64  
+ 13  rbi     100 non-null    float64
+ 14  sb      100 non-null    float64
+ 15  cs      100 non-null    float64
+ 16  bb      100 non-null    int64  
+ 17  so      100 non-null    float64
+ 18  ibb     100 non-null    float64
+ 19  hbp     100 non-null    float64
+ 20  sh      100 non-null    float64
+ 21  sf      100 non-null    float64
+ 22  gidp    100 non-null    float64
+dtypes: float64(9), int64(11), str(3)
+memory usage: 19.5 KB
+
+
 
 .. code-block:: python
 
