@@ -8,6 +8,62 @@ Openpyxl     powered by local multifunctional local model
    :target: 
    https://github.com/Web4application/Openpyxl.git
 
+In [26]: s["f"]
+---------------------------------------------------------------------------
+KeyError                                  Traceback (most recent call last)
+File ~/work/pandas/pandas/pandas/core/indexes/base.py:3641, in Index.get_loc(self, key)
+   3640 try:
+-> 3641     return self._engine.get_loc(casted_key)
+   3642 except KeyError as err:
+
+File ~/work/pandas/pandas/pandas/_libs/index.pyx:168, in pandas._libs.index.IndexEngine.get_loc()
+
+File ~/work/pandas/pandas/pandas/_libs/index.pyx:197, in pandas._libs.index.IndexEngine.get_loc()
+
+File pandas/_libs/hashtable_class_helper.pxi:7668, in pandas._libs.hashtable.PyObjectHashTable.get_item()
+
+File pandas/_libs/hashtable_class_helper.pxi:7676, in pandas._libs.hashtable.PyObjectHashTable.get_item()
+
+KeyError: 'f'
+
+The above exception was the direct cause of the following exception:
+
+KeyError                                  Traceback (most recent call last)
+Cell In[26], line 1
+----> 1 s["f"]
+
+File ~/work/pandas/pandas/pandas/core/series.py:959, in Series.__getitem__(self, key)
+    954     key = unpack_1tuple(key)
+    956 elif key_is_scalar:
+    957     # Note: GH#50617 in 3.0 we changed int key to always be treated as
+    958     #  a label, matching DataFrame behavior.
+--> 959     return self._get_value(key)
+    961 # Convert generator to list before going through hashable part
+    962 # (We will iterate through the generator there to check for slices)
+    963 if is_iterator(key):
+
+File ~/work/pandas/pandas/pandas/core/series.py:1046, in Series._get_value(self, label, takeable)
+   1043     return self._values[label]
+   1045 # Similar to Index.get_value, but we do not fall back to positional
+-> 1046 loc = self.index.get_loc(label)
+   1048 if is_integer(loc):
+   1049     return self._values[loc]
+
+File ~/work/pandas/pandas/pandas/core/indexes/base.py:3648, in Index.get_loc(self, key)
+   3643     if isinstance(casted_key, slice) or (
+   3644         isinstance(casted_key, abc.Iterable)
+   3645         and any(isinstance(x, slice) for x in casted_key)
+   3646     ):
+   3647         raise InvalidIndexError(key) from err
+-> 3648     raise KeyError(key) from err
+   3649 except TypeError:
+   3650     # If we have a listlike key, _check_indexing_error will raise
+   3651     #  InvalidIndexError. Otherwise we fall through and re-raise
+   3652     #  the TypeError.
+   3653     self._check_indexing_error(key)
+
+KeyError: 'f'
+
 Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
 ================================================================================
 
@@ -149,7 +205,7 @@ To list the options, run the following in Anaconda Prompt (Terminal on macOS/Lin
 ```sh  theme={null}
 anaconda upload -h
 ```
-
+.. python::
 
 import pandas as pd
 import os
@@ -170,6 +226,198 @@ def save_excel(writer_path, dfs: dict):
     with pd.ExcelWriter(writer_path, engine="openpyxl") as writer:
         for sheet, df in dfs.items():
             df.to_excel(writer, sheet_name=sheet, index=False)
+
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+const fs = require('fs')
+const path = require('path')
+const bcd = require('@mdn/browser-compat-data')
+
+/*---------------------------------------------------------------------------------------------
+ * Tags
+ *--------------------------------------------------------------------------------------------*/
+
+const htmlTags = require('./htmlTags.json')
+const htmlTagDescriptions = require('./mdnTagDescriptions.json')
+
+htmlTags.forEach(t => {
+  const matchingTagDescription = htmlTagDescriptions.find(td => td.name === t.name)
+
+  if (matchingTagDescription) {
+    t.attributes.forEach(a => {
+      const matchingAttrDescription =
+        matchingTagDescription.attributes.filter(ad => ad.name === a.name && ad.description)
+          .map(ad => ad.description)
+          .join('\n');
+      if (matchingAttrDescription) {
+        a.description = {
+          kind: 'markdown',
+          value: matchingAttrDescription
+        }
+      }
+    })
+
+    const moreAttrs = []
+    matchingTagDescription.attributes.forEach(ad => {
+      if (!t.attributes.some(a => a.name === ad.name)) {
+        moreAttrs.push(ad)
+      }
+    })
+    t.attributes = t.attributes.concat(moreAttrs)
+  }
+})
+
+htmlTags.forEach(t => {
+  if (t.description) {
+    t.description = {
+      kind: 'markdown',
+      value: t.description
+    }
+  }
+})
+
+const bcdHTMLElements = bcd.html.elements
+htmlTags.forEach(t => {
+  if (bcdHTMLElements[t.name]) {
+    const bcdMatchingTag = bcdHTMLElements[t.name]
+    if (bcdMatchingTag.__compat && bcdMatchingTag.__compat.mdn_url) {
+      if (!t.references) {
+        t.references = []
+      }
+      t.references.push({
+        name: 'MDN Reference',
+        url: bcdMatchingTag.__compat.mdn_url
+      })
+    }
+  }
+})
+
+/*---------------------------------------------------------------------------------------------
+ * Global Attributes
+ *--------------------------------------------------------------------------------------------*/
+
+const htmlGlobalAttributes = require('./htmlGlobalAttributes.json')
+
+const bcdGlobalAttributes = bcd.html.global_attributes
+
+htmlGlobalAttributes.forEach(a => {
+  if (a.description) {
+    a.description = {
+      kind: 'markdown',
+      value: a.description
+    }
+  }
+  if (
+    bcdGlobalAttributes[a.name] &&
+    bcdGlobalAttributes[a.name].__compat &&
+    bcdGlobalAttributes[a.name].__compat.mdn_url
+  ) {
+    if (!a.references) {
+      a.references = []
+    }
+    a.references.push({
+      name: 'MDN Reference',
+      url: bcdGlobalAttributes[a.name].__compat.mdn_url
+    })
+  }
+})
+
+/*---------------------------------------------------------------------------------------------
+ * Events
+ *--------------------------------------------------------------------------------------------*/
+
+const htmlEvents = require('./htmlEvents.json')
+/**
+ * Todo@Pine Clean up new HTML events and drop the old events
+ */
+const oldEvents = require('./oldEvents.json')
+
+oldEvents.forEach(e => {
+  const match = htmlEvents.find(x => x.name === e.name)
+  if (match) {
+    if (match.description) {
+      e.description = {
+        kind: 'markdown',
+        value: match.description
+      }
+    }
+  }
+});
+
+
+
+/*---------------------------------------------------------------------------------------------
+ * Aria
+ *--------------------------------------------------------------------------------------------*/
+
+const ariaData = require('./ariaData.json')
+const ariaSpec = require('./ariaSpec.json')
+
+ariaSpec.forEach(ariaItem => {
+  if (ariaItem.description) {
+    ariaItem.description = {
+      kind: 'markdown',
+      value: ariaItem.description
+    }
+  }
+})
+const ariaMap = {}
+
+ariaData.forEach(ad => {
+  ariaMap[ad.name] = {
+    ...ad,
+    references: [
+      {
+        name: 'WAI-ARIA Reference',
+        url: `https://www.w3.org/TR/wai-aria-1.1/#${ad.name}`
+      }
+    ]
+  }
+})
+ariaSpec.forEach(as => {
+  if (!ariaMap[as.name]) {
+    ariaMap[as.name] = {
+      ...as
+    }
+  } else {
+    ariaMap[as.name] = {
+      ...ariaMap[as.name],
+      ...as
+    }
+  }
+})
+
+const ariaOut = []
+for (let a in ariaMap) {
+  ariaOut.push(ariaMap[a])
+}
+
+/*---------------------------------------------------------------------------------------------
+ * Value Sets
+ *--------------------------------------------------------------------------------------------*/
+
+const valueSets = require('./valueSets.json')
+
+/*---------------------------------------------------------------------------------------------
+ * Synthesize
+ *--------------------------------------------------------------------------------------------*/
+
+const customDataObject = {
+  version: 1.1,
+  tags: htmlTags,
+  globalAttributes: [...htmlGlobalAttributes, ...oldEvents, ...ariaOut],
+  valueSets: valueSets
+}
+
+const outPath = path.resolve(__dirname, '../data/browsers.html-data.json')
+console.log('Writing custom data to: ' + outPath)
+fs.writeFileSync(outPath, JSON.stringify(customDataObject, null, 2))
+console.log('Done')
+
+
 
 # pybars3 - Handlebars.js for Python 3 and 2
 
