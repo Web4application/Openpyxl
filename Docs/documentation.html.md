@@ -3,11 +3,13 @@
 ..image: 
 ..code-block: python
 ..allimages: 
-..all_extentions: 
-..target: https://github.com/Web4application/Openpyxl
+..all_extentions: # https://anaconda.com/docs/index/llms.txt
+..target: # work/pandas/pandas/pandas/core/series.py # https://github.com/Web4application/Openpyxl.git
 :task: 
 ---
->pytho -o
+https://anaconda.com/docs/documentation/llms.txt
+>pytho -o work/pandas/pandas/pandas/core/indexes/base.py
+
 >====================================================
 Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
 ====================================================
