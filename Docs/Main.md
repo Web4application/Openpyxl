@@ -26,13 +26,15 @@
 .. doccumentation:: 
 .. key-features:: 
 .. user-guide:: 
-.. anaconda-navigator::
+.. anaconda-navigation::
+.. features::
+.. download-model::
 ---
 
 >  Fetch the complete documentation index at: https://anaconda.com/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Overview
+## Overview
 
 Explore documentation for Anaconda's tools, created to streamline your data science, machine learning, and AI workflows. Select a tool below to get started with installation, quick start guides, tutorials, and reference materials.
 
