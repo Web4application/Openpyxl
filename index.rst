@@ -1,5 +1,5 @@
 > ## Documentation Index
-> Fetch the complete documentation index at: https://anaconda.com/docs/documentation.html.MDX/llms.txt
+> Fetch the complete documentation index at: https://anaconda.com/docs/index/llms.txt
 > Use this file to discover all available pages before exploring further.
 
 # Overview
