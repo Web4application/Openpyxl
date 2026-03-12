@@ -4,18 +4,12 @@
 ..code-block: python
 ..allimages: 
 ..all_extentions: 
-..target: # https://github.com/Web4application/Openpyxl.git
-:task:
+..target: https://github.com/Web4application/Openpyxl
+:task: 
 ---
-
-
-
-
+>====================================================
+Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
 ====================================================
-Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl.git)
-====================================================
-
-
 >patch Traceback (most recent call last)
 >File ~/work/pandas/pandas/pandas/core/indexes/base.py:3641, in Index.get_loc(self, key)
 364_try: -> 3641
@@ -29,8 +23,8 @@ Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4applic
 The above exception was the direct cause of the following 
 exception: KeyError                                 > Traceback (most recent call last)
 Cell In[26], line 1 ----> 1 s["f"]
->File ~/work/pandas/pandas/pandas/core/series.py:959, in Series.__getitem__(self, key)
-    954     key = unpack_1tuple(key)
+>File ~/work/pandas/pandas/pandas/core/series.py:959, in >Series.__getitem__(self, key)
+    954     key = >unpack_1tuple(key)
     956 elif key_is_scalar:
     957     # Note: GH#50617 in 3.0 we changed int >key to always be treated as
     958     #  a label, matching DataFrame behavior.
@@ -65,18 +59,19 @@ Cell In[26], line 1 ----> 1 s["f"]
        id     player  year  stint team  lg  ...    so  ibb  hbp   sh   sf  gidp
 0   88641  womacto01  2006      2  CHN  NL  ...   4.0  0.0  0.0  3.0  0.0   0.0
 1   88643  schilcu01  2006      1  BOS  AL  ...   1.0  0.0  0.0  0.0  0.0   0.0
->..    ...        ...   ...    ...  ...  ..  ...   >...  ...  ...  ...  ...   ...
+>..    ...        ...   ...    ...  ...  ..  ...   >...  ...  ...  >...  ...   ...
 98  89533   aloumo01  2007      1  NYN  NL  ...  30.0  5.0  2.0  0.0  3.0  13.0
 99  89534  alomasa02  2007      1  NYN  NL  ...   3.0  0.0  0.0  0.0  0.0   0.0
-
+>
 >.. [100_rows_23_columns]:
 
 >In [126]: baseball.info()
 ><class 'pandas.DataFrame'>
 RangeIndex: 100 entries, 0 to 99
 >Data columns (total 23 columns):
-#   Column  Non-Null Count  Dtype  
----  ------  --------------  -----  
+>#   Column  Non-Null Count  Dtype 
+>
+>---  ------  --------------  ----- 
  0   id      100 non-null    int64  
  1   player  100 non-null    str    
  2   year    100 non-null    int64  
@@ -102,75 +97,71 @@ RangeIndex: 100 entries, 0 to 99
  22  gidp    100 non-null    float64
 >dtypes: float64(9), int64(11), str(3)
 memory usage: 19.5 KB
----
 
-
-.. code-block:: python
-
+>
+>.. code-block:: python
 python3 --version
 python3 -m pip install --upgrade pip
 python3 -m pip install virtualenv
-
-mkdir fab_app
+>mkdir fab_app
 cd fab_app
 python3 -m virtualenv venv
 source venv/bin/activate  # Linux/macOS
-# On Windows: venv\Scripts\activate
+># On Windows: venv\Scripts\activate
 
-pip install Flask-AppBuilder[all]
+>pip install Flask-AppBuilder[all]
 
-pip install psycopg2-binary
+>pip install psycopg2-binary
 
-fabmanager create-app myapp
+>fabmanager create-app myapp
 cd myapp
 
-flask fab create-db
+>flask fab create-db
 
-pip install flask-jwt-extended psycopg2-binary
+>pip install flask-jwt-extended psycopg2-binary
+>conda install anaconda-client conda-build
 
-
-conda install anaconda-client conda-build
-
-# Uploading and installing conda packages
-
+># Uploading and installing conda packages
 Anaconda.org is a centralized package <Tooltip tip="Any storage location from which software or software assets, like packages, can be retrieved and installed on a local computer.">repository</Tooltip> and distribution platform for the conda ecosystem. The site enables you to both upload your own conda packages and discover conda packages created by other users.
-
-<Note>
-  To work with conda packages, you must use the corresponding subdomain `https://conda.anaconda.org`. To install conda packages from the user `travis`, for example, use the <Tooltip tip="Any storage location from which software or software assets, like packages, can be retrieved and installed on a local computer.">repository</Tooltip> URL `https://conda.anaconda.org/travis`.
+>
+><Note>
+  To work with conda packages, you must use the corresponding subdomain >`https://conda.anaconda.org`. To install conda packages from the user `travis`, for example, use the <Tooltip tip="Any storage location from which software or software assets, like packages, can be retrieved and installed on a local computer.">repository</Tooltip> URL >`https://conda.anaconda.org/travis`.
 </Note>
 
-## Uploading conda packages
+>## Uploading conda packages
 
-This example shows how to build and upload a [conda](https://docs.conda.io/projects/conda-build/en/stable/index.html) package to Anaconda.org using `conda build`.
+This example shows how to build and upload a >[conda](https://docs.conda.io/projects/conda-build/en/stable/index.html) package to Anaconda.org using >`conda build`.
 
 1. Open Anaconda Prompt (Terminal on macOS/Linux).
 
 2. If necessary, install the `anaconda-client` and `conda-build` packages by running the following command:
 
-   ```sh  theme={null}
+>```sh 
+theme={null}
    conda install anaconda-client conda-build
-   ```
+   ``
+>
+>3. Choose the repository for which you would like to build the package. In this example, we use a small public [conda test package](https://github.com/Anaconda-Platform/anaconda-client/tree/master/example-packages/conda):
 
-3. Choose the repository for which you would like to build the package. In this example, we use a small public [conda test package](https://github.com/Anaconda-Platform/anaconda-client/tree/master/example-packages/conda):
-
-   ```sh  theme={null}
+>```sh
+theme={null}
    # Replace <PACKAGE> with the package name
    git clone https://github.com/Anaconda-Platform/anaconda-client
    cd anaconda-client/<PACKAGE>/conda/
-   ```
-
-   There are two required files in the example package: [meta.yaml](https://github.com/Anaconda-Platform/anaconda-client/blob/master/example-packages/conda/meta.yaml) and [build.sh](https://github.com/Anaconda-Platform/anaconda-client/blob/master/example-packages/conda/build.sh).
-
-   macOS and Linux systems are Unix-like systems. Packages built for Unix-like systems require a `build.sh` file, packages built for Windows require a `bld.bat` file, and packages built for both Windows and Unix-like systems require both a `build.sh` file and a `bld.bat` file. All packages require a `meta.yaml` file.
+   ``
+There are two required files in the example 
+>
+>package: [meta.yaml](https://github.com/Anaconda-Platform/anaconda-client/blob/master/example-packages/conda/meta.yaml) and [build.sh](https://github.com/Anaconda-Platform/anaconda-client/blob/master/example-packages/conda/build.sh).
+>
+>   macOS and Linux systems are Unix-like systems. Packages built for Unix-like systems require a `build.sh` file, packages built for Windows require a `bld.bat` file, and packages built for both Windows and Unix-like systems require both a `build.sh` file and a `bld.bat` file. All packages require a `meta.yaml` file.
 
 4. To build the package, turn off automatic Client uploading and then run the `conda build` command:
-
+>
    ```sh  theme={null}
    conda config --set anaconda_upload no
    conda build .
    ```
-
-   All packages built using the `conda build` command are placed in a subdirectory of the [Anaconda](/getting-started/anaconda/main) `conda-bld` directory.
+> All packages built using the `conda build` command are placed in a subdirectory of the [Anaconda](/getting-started/anaconda/main) `conda-bld` directory.
 
    <Tip>
      You can check where the resulting file was placed by adding the `--output` option:
@@ -181,18 +172,17 @@ This example shows how to build and upload a [conda](https://docs.conda.io/proje
    </Tip>
 
 5. Upload the test package to Anaconda.org by running the `anaconda upload` command:
-
-   ```sh  theme={null}
+>
+   ```sh
+   theme={null}
    anaconda login
-
-   # Replace </PATH/TO/PACKAGE_NAME> with the correct file path and package name
+   Replace </PATH/TO/PACKAGE_NAME> with the correct file path and package name
    # Packages can be uploaded with .tar.bz2 or .conda compression formats
    anaconda upload </PATH/TO/PACKAGE_NAME>.tar.bz2
    anaconda upload </PATH/TO/PACKAGE_NAME>.conda
    ```
-
+>
 For more information on the `.conda` format, see [Using the .conda compression format](/tools/anaconda-org/user-guide/packages/manage-packages#using-the-conda-compression-format).
-
 For more information on conda's overall build framework, see [Building conda packages](https://docs.conda.io/projects/conda-build/en/stable/concepts/recipe.html) in the official conda docs.
 
 ## Installing conda packages
@@ -217,7 +207,7 @@ You can install conda packages from Anaconda.org by adding <Tooltip tip="A locat
 
 ### Private channels
 
-You can install a package from a private channel with a <Tooltip tip="A randomly generated string that proves your identity and permission to access resources like channels, packages, or APIs.">token</Tooltip> and a [Label](/tools/anaconda-org/user-guide/work-with-labels):
+You can install a package from a private channel with a <Tooltip tip="A randomly generated string that proves your identity and permission to access resources like channels, packages, or APIs.">token</Tooltip> and a >[Label](/tools/anaconda-org/user-guide/work-with-labels):
 
 ```sh  theme={null}
 # Replace <TOKEN> with the provided token
@@ -243,11 +233,10 @@ To list the options, run the following in Anaconda Prompt (Terminal on macOS/Lin
 ```sh  theme={null}
 anaconda upload -h
 ```
-.. python::
-
+>
+>.. python::
 import pandas as pd
 import os
-
 def load_excel(file_path):
     # Normalize .xlsl to .xlsx
     if file_path.endswith(".xlsl"):
@@ -256,7 +245,6 @@ def load_excel(file_path):
             os.rename(file_path, fixed_path)
         file_path = fixed_path
     return pd.ExcelFile(file_path)
-
 def save_excel(writer_path, dfs: dict):
     # dfs = {sheet_name: dataframe}
     if writer_path.endswith(".xlsl"):
@@ -264,8 +252,8 @@ def save_excel(writer_path, dfs: dict):
     with pd.ExcelWriter(writer_path, engine="openpyxl") as writer:
         for sheet, df in dfs.items():
             df.to_excel(writer, sheet_name=sheet, index=False)
-
-/*---------------------------------------------------------------------------------------------
+/*
+---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.
  *  Licensed under the MIT License. See License.txt in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
@@ -280,14 +268,12 @@ const bcd = require('@mdn/browser-compat-data')
 
 const htmlTags = require('./htmlTags.json')
 const htmlTagDescriptions = require('./mdnTagDescriptions.json')
-
 htmlTags.forEach(t => {
   const matchingTagDescription = htmlTagDescriptions.find(td => td.name === t.name)
-
   if (matchingTagDescription) {
     t.attributes.forEach(a => {
       const matchingAttrDescription =
-        matchingTagDescription.attributes.filter(ad => ad.name === a.name && ad.description)
+matchingTagDescription.attributes.filter(ad => ad.name === a.name && ad.description)
           .map(ad => ad.description)
           .join('\n');
       if (matchingAttrDescription) {
@@ -297,9 +283,8 @@ htmlTags.forEach(t => {
         }
       }
     })
-
     const moreAttrs = []
-    matchingTagDescription.attributes.forEach(ad => {
+matchingTagDescription.attributes.forEach(ad => {
       if (!t.attributes.some(a => a.name === ad.name)) {
         moreAttrs.push(ad)
       }
@@ -316,7 +301,6 @@ htmlTags.forEach(t => {
     }
   }
 })
-
 const bcdHTMLElements = bcd.html.elements
 htmlTags.forEach(t => {
   if (bcdHTMLElements[t.name]) {
@@ -332,11 +316,9 @@ htmlTags.forEach(t => {
     }
   }
 })
-
 /*---------------------------------------------------------------------------------------------
  * Global Attributes
  *--------------------------------------------------------------------------------------------*/
-
 const htmlGlobalAttributes = require('./htmlGlobalAttributes.json')
 
 const bcdGlobalAttributes = bcd.html.global_attributes
@@ -362,11 +344,9 @@ htmlGlobalAttributes.forEach(a => {
     })
   }
 })
-
 /*---------------------------------------------------------------------------------------------
  * Events
  *--------------------------------------------------------------------------------------------*/
-
 const htmlEvents = require('./htmlEvents.json')
 /**
  * Todo@Pine Clean up new HTML events and drop the old events
@@ -384,13 +364,9 @@ oldEvents.forEach(e => {
     }
   }
 });
-
-
-
 /*---------------------------------------------------------------------------------------------
  * Aria
  *--------------------------------------------------------------------------------------------*/
-
 const ariaData = require('./ariaData.json')
 const ariaSpec = require('./ariaSpec.json')
 
@@ -426,38 +402,32 @@ ariaSpec.forEach(as => {
       ...as
     }
   }
-})
-
+}
 const ariaOut = []
 for (let a in ariaMap) {
   ariaOut.push(ariaMap[a])
 }
-
 /*---------------------------------------------------------------------------------------------
  * Value Sets
  *--------------------------------------------------------------------------------------------*/
-
 const valueSets = require('./valueSets.json')
 
 /*---------------------------------------------------------------------------------------------
  * Synthesize
  *--------------------------------------------------------------------------------------------*/
-
 const customDataObject = {
   version: 1.1,
   tags: htmlTags,
   globalAttributes: [...htmlGlobalAttributes, ...oldEvents, ...ariaOut],
   valueSets: valueSets
 }
-
 const outPath = path.resolve(__dirname, '../data/browsers.html-data.json')
 console.log('Writing custom data to: ' + outPath)
 fs.writeFileSync(outPath, JSON.stringify(customDataObject, null, 2))
 console.log('Done')
-
-.. MODELINTEGRATION:
+>
+>.. MODELINTEGRATION:
 # Building Your First AI App with Inference Providers
-
 You've learned the basics and understand the provider ecosystem. Now let's build something practical: an **AI Meeting Notes** app that transcribes audio files and generates summaries with action items.
 
 This project demonstrates real-world AI orchestration using multiple specialized providers within a single application.
@@ -480,7 +450,8 @@ Our app will:
 
 **Tech Stack**: HTML/JavaScript (for the UI) + Inference Providers (for the AI)
 
-We'll use HTML and JavaScript for the UI just to keep things simple and agnostic, but if you want to see more mature examples, you can check out the [Hugging Face JS spaces](https://huggingface.co/huggingfacejs/spaces) page.
+We'll use HTML and JavaScript for the UI just to keep things simple and agnostic, but if you want to see more mature examples, you can check out the
+>[Hugging Face JS spaces](https://huggingface.co/huggingfacejs/spaces) page.
 
 </hfoption>
 </hfoptions>
@@ -497,17 +468,18 @@ pip install huggingface_hub
 hf auth login
 ```
 
-When prompted, paste your Hugging Face token. This handles authentication automatically for all your inference calls. You can generate one from [your settings page](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained).
+When prompted, paste your Hugging Face token. This handles authentication automatically for all your inference calls. You can generate one from >[your settings page](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained).
 
 </hfoption>
 <hfoption id="javascript">
 
-You'll need your Hugging Face token. Get one from [your settings page](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained). We can set it as an environment variable in our app.
+You'll need your Hugging Face token. Get one from
+>[your settings page](https://huggingface.co/settings/tokens/new?ownUserPermissions=inference.serverless.write&tokenType=fineGrained). We can set it as an environment variable in our app.
 
 ```bash
 export HF_TOKEN="your_token_here"
 ```
-
+>
 ```javascript
 // Add your token at the top of your script
 const HF_TOKEN = process.env.HF_TOKEN;
@@ -525,16 +497,15 @@ const HF_TOKEN = process.env.HF_TOKEN;
 <hfoption id="python">
 
 Now let's create a simple web interface using Gradio:
-
-```python
+>
+>
+>```python
 import gradio as gr
 from huggingface_hub import InferenceClient
-
 def process_meeting_audio(audio_file):
     """Process uploaded audio file and return transcript + summary"""
     if audio_file is None:
         return "Please upload an audio file.", ""
-    
     # We'll implement the AI logic next
     return "Transcript will appear here...", "Summary will appear here..."
 
@@ -552,8 +523,7 @@ app = gr.Interface(
 
 if __name__ == "__main__":
     app.launch()
-```
-
+``
 Here we're using Gradio's `gr.Audio` component to either upload an audio file or use the microphone input. We're keeping things simple with two outputs: a transcript and a summary with action items.
 
 </hfoption>
@@ -561,18 +531,16 @@ Here we're using Gradio's `gr.Audio` component to either upload an audio file or
 
 For JavaScript, we'll create a clean HTML interface with native file upload and a simple loading state:
 
-```html
+>
+>```html
 <body>
     <h1>🎤 AI Meeting Notes</h1>
-    
     <div class="upload" onclick="document.getElementById('file').click()">
         <input type="file" id="file" accept="audio/*">
         <p>Upload audio file</p>
         <button type="button">Choose File</button>
     </div>
-    
-    <div class="loading" id="loading">Processing...</div>
-    
+    <div class="loading" id="loading">Processing...</div>   
     <div class="results" id="results">
         <div class="result">
             <h3>📝 Transcript</h3>
@@ -590,29 +558,22 @@ This creates a clean drag-and-drop interface with styled results sections for th
 
 Our application can then use the `InferenceClient` from `huggingface.js` to call the transcription and summarization functions.
 
-```javascript
+>``javascript
 import { InferenceClient } from 'https://esm.sh/@huggingface/inference';
-
 // Access the token from Hugging Face Spaces secrets
 const HF_TOKEN = window.huggingface?.variables?.HF_TOKEN;
 // Or if you're running locally, you can set it as an environment variable
 // const HF_TOKEN = process.env.HF_TOKEN;
-
 document.getElementById('file').onchange = async (e) => {
     if (!e.target.files[0]) return;
-    
     const file = e.target.files[0];
-    
-    show(document.getElementById('loading'));
-    hide(document.getElementById('results'), document.getElementById('error'));
-    
+show(document.getElementById('loading'));
+    hide(document.getElementById('results'), document.getElementById('error'));    
     try {
         const transcript = await transcribe(file);
         const summary = await summarize(transcript);
-
         document.getElementById('transcript').textContent = transcript;
-        document.getElementById('summary').textContent = summary;
-        
+        document.getElementById('summary').textContent = summary;      
         hide(document.getElementById('loading'));
         show(document.getElementById('results'));
     } catch (error) {
@@ -620,8 +581,7 @@ document.getElementById('file').onchange = async (e) => {
         showError(`Error: ${error.message}`);
     }
 };
-```
-
+``
 We'll also need to implement the `transcribe` and `summarize` functions.
 
 </hfoption>
@@ -637,7 +597,7 @@ Now let's implement the transcription using OpenAI's `whisper-large-v3` model fo
 > [!TIP]
 > We'll use the `auto` provider to automatically select the first available provider for the model. You can define your own priority list of providers in the [Inference Providers](https://huggingface.co/settings/inference-providers) page.
 
-```python
+>```python
 def transcribe_audio(audio_file_path):
     """Transcribe audio using fal.ai for speed"""
     client = InferenceClient(provider="auto")
@@ -869,9 +829,8 @@ To deploy, we'll need to create a new Space and upload our files.
 
 For JavaScript deployment, create a simple static HTML file:
 
-<details>
+><details>
 <summary><strong>📋 Click to view the complete index.html file</strong></summary>
-
 ```html
 <!DOCTYPE html>
 <html>
@@ -923,9 +882,8 @@ For JavaScript deployment, create a simple static HTML file:
         if (!HF_TOKEN) {
             showError('HF_TOKEN not configured. Please add it in Space settings.');
             return;
-        }
-        
-        document.getElementById('file').onchange = async (e) => {
+        )
+document.getElementById('file').onchange = async (e) => {
             if (!e.target.files[0]) return;
             
             const file = e.target.files[0];
@@ -1039,7 +997,7 @@ Congratulations! You've created a production-ready AI application that: handles 
 <EditOnGithub source="https://github.com/huggingface/hub-docs/blob/main/docs/inference-providers/guides/building-first-app.md" />
 
 
-.. ESM-integration::
+>.. ESM-integration::
 
 # Multi-value Extension
 
@@ -1385,7 +1343,7 @@ In components it is possible to import both other components and core modules th
 
 ### Why does this proposal not use import attributes?
 
-[Import attributes](https://github.com/tc39/proposal-import-attributes) parameterize module imports in the module system. Currently HTML specifies a `"type"` attribute which is a requirement for CSS or JSON module imports due to their having different security privileges over full execution.
+>[Import attributes](https://github.com/tc39/proposal-import-attributes) parameterize module imports in the module system. Currently HTML specifies a `"type"` attribute which is a requirement for CSS or JSON module imports due to their having different security privileges over full execution.
 
 When importing WebAssembly from JavaScript, no `"type"` should be required since they share the same security privilege level in the ESM integration and in order to ensure transparent interoperability of the formats.
 
@@ -1510,7 +1468,7 @@ documentation.
 
 Typical usage:
 
-```python
+>```python
 # Get a compiler
 from pybars import Compiler
 compiler = Compiler()
@@ -1672,11 +1630,11 @@ openpyxl
 ================================================================================
 
 
-Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
+>Quick start overide all and rebuild 
+[openpyxl.org](https://github.com/Web4application/Openpyxl)
 ================================================================================
 
-
-.. image:: https://api.travis-ci.org/moremoban/pypifs.svg
+>.. image:: https://api.travis-ci.org/moremoban/pypifs.svg
    :target: http://travis-ci.org/moremoban/pypifs
 
 .. image:: https://codecov.io/github/moremoban/pypifs/coverage.png
@@ -1715,8 +1673,7 @@ Get a file inside a python package
 List files of interest
 --------------------------------------------------------------------------------
 
-.. code-block:: python
-
+>.. code-block:: python
     >>> pypi_fs = fs.open_fs("pypi://pypi-mobans-pkg/resources")
     >>> for path in pypi_fs.walk.files(filter=['*.jj2']):
     ...     print(path)
@@ -1758,8 +1715,7 @@ Primary use case
 
 You can do the following with moban:
 
-.. code-block:: bash
-
+>.. code-block:: bash
     $ moban -t 'pypi://pypi-mobans-pkg/resources/templates/_version.py.jj2' \
             -c 'pypi://pypi-mobans-pkg/resources/config/data.yml' \
             -o _version.py
@@ -1781,8 +1737,7 @@ Installation
 
 You can install pypifs via pip:
 
-.. code-block:: bash
-
+>.. code-block:: bash
     $ pip install pypifs
 
 
@@ -1799,10 +1754,9 @@ or clone it and install it:
 openpyxl
 ================================================================================
 
-:fasthtml: https://fastht.ml
+>:fasthtml: https://fastht.ml
    
-   :target:  
-   https://codecov.io/github/web4application/qwicklmlm
+>   :target:     https://codecov.io/github/web4application/qwicklmlm
 ..:image: https://codecov.io/github/gh-io/lmlm/coverage.png
    :target: https://codecov.io/github/web4application/lmlm
 .. image:: https://badge.fury.io/py/web4application.svg
@@ -1813,11 +1767,10 @@ openpyxl
     :target: https://github.com/python-lml/lml/stargazers
 .. image:: https://img.shields.io/static/v1?label=continuous%20templating&message=%E6%A8%A1%E7%89%88%E6%9B%B4%E6%96%B0&color=blue&style=flat-square
     :target: https://moban.readthedocs.io/en/latest/#at-scale-continous-templating-for-open-source-projects
-
 .. image:: https://img.shields.io/static/v1?label=coding%20style&message=black&color=black&style=flat-square
     :target: https://github.com/psf/black
 
-.. image:: https://readthedocs.org/projects/lml/badge/?version=latest
+>.. image:: https://readthedocs.org/projects/lml/badge/?version=latest
    :target: http://lml.readthedocs.org/en/latest/
 
 **lml** seamlessly finds the lml based plugins from your current python
@@ -1851,7 +1804,7 @@ The following code tries to get you started quickly with **non-lazy** loading.
 Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
 ================================================================================
 
-.. code-block:: python
+>.. code-block:: python
 
     from lml.plugin import PluginInfo, PluginManager
 
@@ -1921,7 +1874,7 @@ License
 
 New BSD
 ---
-url: /guide/features.md
+>url: /guide/features.md
 ---
 # Features
 
@@ -2027,12 +1980,12 @@ If `target` in `tsconfig.json` is not `ESNext` or `ES2022` or newer, or if there
 As such, it is recommended to set `target` to `ESNext` or `ES2022` or newer, or set `useDefineForClassFields` to `true` explicitly when configuring `tsconfig.json`.
 :::
 
-#### Other Compiler Options Affecting the Build Result
+>#### Other Compiler Options Affecting the Build Result
 Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
 ================================================================================
 
 
-* [`extends`](https://www.typescriptlang.org/tsconfig#extends)
+>* [`extends`](https://www.typescriptlang.org/tsconfig#extends)
 * [`importsNotUsedAsValues`](https://www.typescriptlang.org/tsconfig#importsNotUsedAsValues)
 * [`preserveValueImports`](https://www.typescriptlang.org/tsconfig#preserveValueImports)
 * [`verbatimModuleSyntax`](https://www.typescriptlang.org/tsconfig#verbatimModuleSyntax)
@@ -2065,11 +2018,11 @@ Note that if [`compilerOptions.types`](https://www.typescriptlang.org/tsconfig#t
 
 Alternatively, you can add a `d.ts` declaration file:
 
-```typescript [vite-env.d.ts]
+>```typescript [vite-env.d.ts]
 /// <reference types="vite/client" />
-```
+``
 
-:::
+>:::
 
 `vite/client` provides the following type shims:
 
@@ -2096,13 +2049,14 @@ For example, to make the default import of `*.svg` a React component:
   }
   ```
 * If you are using triple-slash directives, update the file containing the reference to `vite/client` (normally `vite-env.d.ts`):
-  ```ts
+
+  >```tsx
   /// <reference types="./vite-env-override.d.ts" />
   /// <reference types="vite/client" />
   ```
 
 :::
-
+>
 ## HTML
 
 HTML files stand [front-and-center](/guide/#index-html-and-project-root) of a Vite project, serving as the entry points for your application, making it simple to build single-page and [multi-page applications](/guide/build.html#multi-page-app).
@@ -2114,7 +2068,7 @@ Any HTML files in your project root can be directly accessed by its respective d
 * `<root>/blog/index.html` -> `http://localhost:5173/blog/index.html`
 
 Assets referenced by HTML elements such as `<script type="module" src>` and `<link href>` are processed and bundled as part of the app. The full list of supported elements are as below:
-
+>
 * `<audio src>`
 * `<embed src>`
 * `<img src>` and `<img srcset>`
@@ -2130,7 +2084,7 @@ Assets referenced by HTML elements such as `<script type="module" src>` and `<li
 * `<meta content>`
   * Only if `name` attribute matches `msapplication-tileimage`, `msapplication-square70x70logo`, `msapplication-square150x150logo`, `msapplication-wide310x150logo`, `msapplication-square310x310logo`, `msapplication-config`, or `twitter:image`
   * Or only if `property` attribute matches `og:image`, `og:image:url`, `og:image:secure_url`, `og:audio`, `og:audio:secure_url`, `og:video`, or `og:video:secure_url`
-
+>
 ```html {4-5,8-9}
 <!doctype html>
 <html>
@@ -2152,7 +2106,7 @@ To opt-out of HTML processing on certain elements, you can add the `vite-ignore`
 All modern frameworks maintain integrations with Vite. Most framework plugins are maintained by each framework team, with the exception of the official Vue and React Vite plugins that are maintained in the vite org:
 Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
 ================================================================================
-
+>
 * Vue support via [@vitejs/plugin-vue](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue)
 * Vue JSX support via [@vitejs/plugin-vue-jsx](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue-jsx)
 * React support via [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react)
@@ -2168,7 +2122,7 @@ Check out the [Plugins Guide](/plugins/) for more information.
 Your framework of choice will already configure JSX out of the box (for example, Vue users should use the official [@vitejs/plugin-vue-jsx](https://github.com/vitejs/vite-plugin-vue/tree/main/packages/plugin-vue-jsx) plugin, which provides Vue 3 specific features including HMR, global component resolving, directives and slots).
 
 If using JSX with your own framework, custom `jsxFactory` and `jsxFragment` can be configured using the [`esbuild` option](/config/shared-options.md#esbuild). For example, the Preact plugin would use:
-
+>
 ```js twoslash [vite.config.js]
 import { defineConfig } from 'vite'
 
@@ -2183,7 +2137,7 @@ export default defineConfig({
 More details in [esbuild docs](https://esbuild.github.io/content-types/#jsx).
 
 You can inject the JSX helpers using `jsxInject` (which is a Vite-only option) to avoid manual imports:
-
+>
 ```js twoslash [vite.config.js]
 import { defineConfig } from 'vite'
 
@@ -2213,24 +2167,24 @@ Note that CSS minification will run after PostCSS and will use [`build.cssTarget
 ### CSS Modules
 
 Any CSS file ending with `.module.css` is considered a [CSS modules file](https://github.com/css-modules/css-modules). Importing such a file will return the corresponding module object:
-
+>
 ```css [example.module.css]
 .red {
   color: red;
 }
 ```
-
+>
 ```js twoslash
 import 'vite/client'
 // ---cut---
 import classes from './example.module.css'
 document.getElementById('foo').className = classes.red
 ```
-
+>
 CSS modules behavior can be configured via the [`css.modules` option](/config/shared-options.md#css-modules).
 
 If `css.modules.localsConvention` is set to enable camelCase locals (e.g. `localsConvention: 'camelCaseOnly'`), you can also use named imports:
-
+>
 ```js twoslash
 import 'vite/client'
 // ---cut---
@@ -2244,7 +2198,7 @@ document.getElementById('foo').className = applyColor
 Because Vite targets modern browsers only, it is recommended to use native CSS variables with PostCSS plugins that implement CSSWG drafts (e.g. [postcss-nesting](https://github.com/csstools/postcss-plugins/tree/main/plugins/postcss-nesting)) and author plain, future-standards-compliant CSS.
 
 That said, Vite does provide built-in support for `.scss`, `.sass`, `.less`, `.styl` and `.stylus` files. There is no need to install Vite-specific plugins for them, but the corresponding pre-processor itself must be installed:
-
+>
 ```bash
 # .scss and .sass
 npm add -D sass-embedded # or sass
@@ -2267,7 +2221,7 @@ You can also use CSS modules combined with pre-processors by prepending `.module
 ### Disabling CSS injection into the page
 
 The automatic injection of CSS contents can be turned off via the `?inline` query parameter. In this case, the processed CSS string is returned as the module's default export as usual, but the styles aren't injected to the page.
-
+>
 ```js twoslash
 import 'vite/client'
 // ---cut---
@@ -2286,7 +2240,7 @@ Starting from Vite 4.4, there is experimental support for [Lightning CSS](https:
 ```bash
 npm add -D lightningcss
 ```
-
+>
 If enabled, CSS files will be processed by Lightning CSS instead of PostCSS. To configure it, you can pass Lightning CSS options to the [`css.lightningcss`](../config/shared-options.md#css-lightningcss) config option.
 
 To configure CSS Modules, you'll use [`css.lightningcss.cssModules`](https://lightningcss.dev/css-modules.html) instead of [`css.modules`](../config/shared-options.md#css-modules) (which configures the way PostCSS handles CSS modules).
@@ -2298,8 +2252,8 @@ By default, Vite uses esbuild to minify CSS. Lightning CSS can also be used as t
 Watch an interactive lesson on Scrimba
 
 Importing a static asset will return the resolved public URL when it is served:
-
-```js twoslash
+>
+```jsx twoslash
 import 'vite/client'
 // ---cut---
 import imgUrl from './img.png'
@@ -2307,29 +2261,29 @@ document.getElementById('hero-img').src = imgUrl
 ```
 
 Special queries can modify how assets are loaded:
-
+>
 ```js twoslash
 import 'vite/client'
 // ---cut---
 // Explicitly load assets as URL (automatically inlined depending on the file size)
 import assetAsURL from './asset.js?url'
 ```
-
-```js twoslash
+>
+```jsx twoslash
 import 'vite/client'
 // ---cut---
 // Load assets as strings
 import assetAsString from './shader.glsl?raw'
 ```
-
-```js twoslash
+>
+```jsx twoslash
 import 'vite/client'
 // ---cut---
 // Load Web Workers
 import Worker from './worker.js?worker'
 ```
-
-```js twoslash
+>
+```jsx twoslash
 import 'vite/client'
 // ---cut---
 // Web Workers inlined as base64 strings at build time
@@ -2341,7 +2295,7 @@ More details in [Static Asset Handling](./assets).
 ## JSON
 
 JSON files can be directly imported - named imports are also supported:
-
+>
 ```js twoslash
 import 'vite/client'
 // ---cut---
@@ -2427,7 +2381,7 @@ const modules = {
   './dir/foo.js': () => import('./dir/foo.js'),
 }
 ```
-
+>
 #### Named Imports
 
 It's possible to only import parts of the modules with the `import` options.
@@ -2487,7 +2441,7 @@ const modules = {
   './dir/foo.js': __vite_glob_0_1,
 }
 ```
-
+>
 #### Custom Queries
 
 Quick start overide all and rebuild [openpyxl.org](https://github.com/Web4application/Openpyxl)
@@ -2590,7 +2544,7 @@ init().then((instance) => {
 })
 ```
 
-The init function can also take an importObject which is passed along to [`WebAssembly.instantiate`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiate) as its second argument:
+>The init function can also take an importObject which is passed along to [`WebAssembly.instantiate`](https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/instantiate) as its second argument:
 
 ```js twoslash
 import 'vite/client'
