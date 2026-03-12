@@ -1,0 +1,57 @@
+# Volume: list
+
+Performs a book search.
+[Try it now](https://developers.google.com/books/docs/v1/reference/volumes/list#try-it).
+
+## Request
+
+### HTTP Request
+
+    GET https://www.googleapis.com/books/v1/volumes?q={search terms}
+
+### Parameters
+
+| Parameter Name | Value | Description |
+|---|---|---|
+| **Required Parameters** |||
+| `q` | `string` | Full-text search query string. |
+| **Optional Parameters** |||
+| `download` | `string` | Restrict to volumes by download availability. <br /> <br /> Acceptable values are: - "`epub`" - All volumes with epub. |
+| `filter` | `string` | Filter search results. <br /> <br /> Acceptable values are: - "`ebooks`" - All Google eBooks. - "`free-ebooks`" - Google eBook with full volume text viewability. - "`full`" - Public can view entire volume text. - "`paid-ebooks`" - Google eBook with a price. - "`partial`" - Public able to see parts of text. |
+| `langRestrict` | `string` | Restrict results to books with this language code. |
+| `libraryRestrict` | `string` | Restrict search to this user's library. <br /> <br /> Acceptable values are: - "`my-library`" - Restrict to the user's library, any shelf. - "`no-restrict`" - Do not restrict based on user's library. |
+| `maxResults` | `unsigned integer` | Maximum number of results to return. Acceptable values are `0` to `40`, inclusive. |
+| `orderBy` | `string` | Sort search results. <br /> <br /> Acceptable values are: - "`newest`" - Most recently published. - "`relevance`" - Relevance to search terms. |
+| `partner` | `string` | Restrict and brand results for partner ID. |
+| `printType` | `string` | Restrict to books or magazines. <br /> <br /> Acceptable values are: - "`all`" - All volume content types. - "`books`" - Just books. - "`magazines`" - Just magazines. |
+| `projection` | `string` | Restrict information returned to a set of selected fields. <br /> <br /> Acceptable values are: - "`full`" - Includes all volume data. - "`lite`" - Includes a subset of fields in volumeInfo and accessInfo. |
+| `showPreorders` | `boolean` | Set to true to show books available for preorder. Defaults to false. |
+| `source` | `string` | String to identify the originator of this request. |
+| `startIndex` | `unsigned integer` | Index of the first result to return (starts at 0) |
+
+### Request Body
+
+Do not supply a request body with this method.
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+    {
+      "kind": "books#volumes",
+      "items": [
+        volume Resource
+      ],
+      "totalItems": (value)
+    }
+
+| Property Name | Value | Description | Notes |
+|---|---|---|---|
+| `kind` | `string` | Resource type. |   |
+| `items[]` | `list` | A list of volumes. |   |
+| `totalItems` | `integer` | Total number of volumes found. This might be greater than the number of volumes returned in this response if results have been paginated. |   |
+
+## Try It!
+
+
+Use the explorer below to call this method on live data and see the response.

@@ -1,0 +1,37 @@
+name: Docs Quality Gate
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - ".prettierrc"
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+      - ".prettierrc"
+
+jobs:
+  lint-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install --no-save prettier
+
+      - name: Prettier check (MDX + JSON)
+        run: |
+          npx prettier \
+            --check \
+            "docs/**/*.{mdx,md,json}" \
+            "docs/mint.json"
