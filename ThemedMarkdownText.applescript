@@ -22,7 +22,7 @@ struct ThemedMarkdownText: View {
     init(text: String, chat: StoreOf<Chat>) {
         self.text = text
         self.chat = chat
-    }
+    } 
 
     var body: some View {
         Markdown(text)
