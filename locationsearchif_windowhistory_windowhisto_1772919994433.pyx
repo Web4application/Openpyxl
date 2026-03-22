@@ -1,5 +1,5 @@
-Alright — I’ll take that long decimal number, treat it as a raw Bitcoin private key, and derive the corresponding public address so you can check it on a blockchain explorer.
-This will be done offline in code so no sensitive data is exposed to the internet.
+# Alright — I’ll take that long decimal number, treat it as a raw Bitcoin private key, and derive the corresponding public address so you can check it on a blockchain explorer.
+# This will be done offline in code so no sensitive data is exposed to the internet.
 
 Python Code to Derive the Address
 You can run this locally:
