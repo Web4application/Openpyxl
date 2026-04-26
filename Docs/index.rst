@@ -1,5 +1,5 @@
-# Documentation 
->Index.md
+# Documentation
+.. Index.md:
 >
 >Fetch the complete documentation index at: https://anaconda.com/docs/index.html#index.md
 >
