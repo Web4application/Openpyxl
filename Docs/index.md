@@ -2,7 +2,7 @@
 > Fetch the complete documentation index at: https://anaconda.com/docs/index/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Overview
+# Overview 
 
 <Note>
   Anaconda is releasing a new user experience that is affecting some of the pages on Anaconda.org. Search and the package details pages have a new look and feel, but be aware that some pages will still have the old interface for now.
